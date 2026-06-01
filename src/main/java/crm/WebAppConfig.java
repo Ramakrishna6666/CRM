@@ -12,16 +12,12 @@ import org.springframework.web.accept.ContentNegotiationManager;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.dialect.springdata.SpringDataDialect;
-import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
-import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
-import org.thymeleaf.spring4.SpringTemplateEngine;
-import org.thymeleaf.spring4.view.ThymeleafViewResolver;
+import org.thymeleaf.extras.springsecurity6.dialect.SpringSecurityDialect;
+import org.thymeleaf.spring6.SpringTemplateEngine;
+import org.thymeleaf.spring6.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
-import org.thymeleaf.templateresolver.ITemplateResolver;
 
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -30,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 @Configuration
-public class WebAppConfig extends WebMvcConfigurerAdapter {
+public class WebAppConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
@@ -49,17 +45,16 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
-        configurer.favorPathExtension(true)
+        configurer
                 .ignoreAcceptHeader(false)
-                .defaultContentType(MediaType.APPLICATION_JSON)
-                .useJaf(false);
+                .defaultContentType(MediaType.APPLICATION_JSON);
 
-        final Map<String,MediaType> mediaTypes = new HashMap<>();
+        final Map<String, MediaType> mediaTypes = new HashMap<>();
         mediaTypes.put("html", MediaType.TEXT_HTML);
         mediaTypes.put("json", MediaType.APPLICATION_JSON);
         mediaTypes.put("xls", MediaType.valueOf("application/vnd.ms-excel"));
         mediaTypes.put("pdf", MediaType.APPLICATION_PDF);
-        mediaTypes.put("csv", new MediaType("text","csv", Charset.forName("utf-8")));
+        mediaTypes.put("csv", new MediaType("text", "csv", Charset.forName("utf-8")));
         configurer.mediaTypes(mediaTypes);
     }
 
@@ -92,7 +87,7 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
         templateResolver.setPrefix("templates/");
         templateResolver.setCacheable(false);
         templateResolver.setSuffix(".html");
-        templateResolver.setTemplateMode("HTML5");
+        templateResolver.setTemplateMode("HTML");
         templateResolver.setCharacterEncoding("UTF-8");
 
         return templateResolver;
@@ -108,14 +103,6 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
         // add dialect spring security
         templateEngine.addDialect(new SpringSecurityDialect());
         return templateEngine;
-    }
-
-    @Bean
-    public TemplateEngine templateEngine(ITemplateResolver templateResolver) {
-        SpringTemplateEngine engine = new SpringTemplateEngine();
-        engine.addDialect(new Java8TimeDialect());
-        engine.setTemplateResolver(templateResolver);
-        return engine;
     }
 
     @Bean
@@ -155,11 +142,6 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
     @Bean
     public ViewResolver pdfViewResolver() {
         return new PdfViewResolver();
-    }
-
-    @Bean
-    public SpringDataDialect springDataDialect() {
-        return new SpringDataDialect();
     }
 
 }

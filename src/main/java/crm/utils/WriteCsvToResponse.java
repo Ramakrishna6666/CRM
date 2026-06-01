@@ -18,15 +18,14 @@ public class WriteCsvToResponse {
 
     public static void writeCustomers(PrintWriter printWriter, List<Customer> customers) {
         try {
-            ColumnPositionMappingStrategy columnPositionMappingStrategy = new ColumnPositionMappingStrategy();
+            ColumnPositionMappingStrategy<Customer> columnPositionMappingStrategy = new ColumnPositionMappingStrategy<>();
 
             columnPositionMappingStrategy.setType(Customer.class);
-            columnPositionMappingStrategy.generateHeader();
 
             String[] columns = new String[]{"id", "name", "email", "phone", "firstName", "lastName", "city", "address", "enabled"};
             columnPositionMappingStrategy.setColumnMapping(columns);
 
-            StatefulBeanToCsv statefulBeanToCsv = new StatefulBeanToCsvBuilder(printWriter)
+            StatefulBeanToCsv<Customer> statefulBeanToCsv = new StatefulBeanToCsvBuilder<Customer>(printWriter)
                     .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
                     .withMappingStrategy(columnPositionMappingStrategy)
                     .withSeparator(',')
@@ -40,14 +39,14 @@ public class WriteCsvToResponse {
 
     public static void writeCustomer(PrintWriter printWriter, Customer customer) {
         try {
-            ColumnPositionMappingStrategy columnPositionMappingStrategy = new ColumnPositionMappingStrategy();
+            ColumnPositionMappingStrategy<Customer> columnPositionMappingStrategy = new ColumnPositionMappingStrategy<>();
 
             columnPositionMappingStrategy.setType(Customer.class);
 
             String[] columns = new String[]{"id", "name", "email", "phone", "firstName", "lastName", "city", "address", "enabled"};
             columnPositionMappingStrategy.setColumnMapping(columns);
 
-            StatefulBeanToCsv statefulBeanToCsv = new StatefulBeanToCsvBuilder(printWriter)
+            StatefulBeanToCsv<Customer> statefulBeanToCsv = new StatefulBeanToCsvBuilder<Customer>(printWriter)
                     .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
                     .withMappingStrategy(columnPositionMappingStrategy)
                     .withSeparator(',')

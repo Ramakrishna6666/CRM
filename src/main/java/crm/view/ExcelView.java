@@ -1,16 +1,15 @@
 package crm.view;
 
 import crm.entity.User;
-import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.web.servlet.view.document.AbstractXlsView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
-public class ExcelView extends AbstractXlsView{
+public class ExcelView extends AbstractXlsView {
 
     @Override
     protected void buildExcelDocument(Map<String, Object> model,
@@ -32,12 +31,11 @@ public class ExcelView extends AbstractXlsView{
         CellStyle style = workbook.createCellStyle();
         Font font = workbook.createFont();
         font.setFontName("Arial");
-        style.setFillForegroundColor(HSSFColor.BLUE.index);
+        style.setFillForegroundColor(IndexedColors.BLUE.getIndex());
         style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         font.setBold(true);
-        font.setColor(HSSFColor.WHITE.index);
+        font.setColor(IndexedColors.WHITE.getIndex());
         style.setFont(font);
-
 
         // create header row
         Row header = sheet.createRow(0);
@@ -60,8 +58,8 @@ public class ExcelView extends AbstractXlsView{
 
         int rowCount = 1;
 
-        for(User user : users){
-            Row userRow =  sheet.createRow(rowCount++);
+        for (User user : users) {
+            Row userRow = sheet.createRow(rowCount++);
             userRow.createCell(0).setCellValue(user.getFirstName());
             userRow.createCell(1).setCellValue(user.getLastName());
             userRow.createCell(2).setCellValue(user.getUsername());

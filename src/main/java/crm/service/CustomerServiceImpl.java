@@ -28,7 +28,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer showCustomer(Long id) {
-        return customerRepository.findOne(id);
+        return customerRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -90,7 +90,7 @@ public class CustomerServiceImpl implements CustomerService {
     public Iterable<Customer> findByEnabledTrueAndCategories(Set<Category> category) {
         return customerRepository.findByEnabledAndCategories(1, category);
     }
-//
+
     @Override
     public Iterable<Customer> findByEnabledFalseAndCategories(Set<Category> category) {
         return customerRepository.findByEnabledAndCategories(0, category);
@@ -181,16 +181,5 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setEnabled(1);
         customerRepository.save(customer);
     }
-//
-//    @Override
-//    public void editCustomer(Customer customer) {
-//        customerRepository.save(customer);
-//    }
-//
-//    @Override
-//    public void deleteCustomer(Customer customer) {
-//        customer.setEnabled(0);
-//        customerRepository.save(customer);
-//    }
 
 }
