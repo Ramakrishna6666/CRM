@@ -24,6 +24,10 @@ public class Pdf {
     private String name;
 
     @Transient
+
+    // S3 object key for cloud-native storage
+    @Column(name = "s3_key")
+    private String s3Key;
     private String content;
 
 }
