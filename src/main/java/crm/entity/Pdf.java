@@ -21,9 +21,7 @@ public class Pdf {
 
     @Column(nullable = false)
     @Size(min = 2)
-    private String name;
 
-    @Transient
-    private String content;
-
+    @Column(name = "s3_key")
+    private String s3Key;  // Store S3 object key for cloud-native storage reference
 }
