@@ -53,13 +53,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Iterable<User> listAllUsers() {
-        return userRepository.findAllByEnabled(1);
-    }
-
-    @Override
-    public User showUser(Long id) {
-        return userRepository.findOne(id);
-    }
+        return userRepository.findById(id).orElse(null);
 
     @Override
     public void saveUser(User user) {
@@ -83,13 +77,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void editUser(User user) {
-        String password = user.getPassword();
-        user.setPassword(passwordEncoder.encode(password));
-        Role userRole = roleRepository.findByName("ROLE_USER");
-        try {
-            userRole = roleRepository.findOne(user.getRole().getId());
-        } catch (NullPointerException e) {
-            userRole = roleRepository.findByName("ROLE_USER");
+            userRole = roleRepository.findById(user.getRole().getId()).orElse(null);
         } finally {
             user.setRole(userRole);
             user.setEnabled(1);

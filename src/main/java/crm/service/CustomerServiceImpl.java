@@ -25,13 +25,7 @@ public class CustomerServiceImpl implements CustomerService {
     public Iterable<Customer> listAllCustomers() {
         return customerRepository.findAll();
     }
-
-    @Override
-    public Customer showCustomer(Long id) {
-        return customerRepository.findOne(id);
-    }
-
-    @Override
+        return customerRepository.findById(id).orElse(null);
     public Iterable<Customer> findAllByEnabledTrue() {
         return customerRepository.findAllByEnabled(1);
     }
