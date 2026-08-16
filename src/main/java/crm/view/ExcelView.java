@@ -1,7 +1,6 @@
 package crm.view;
 
 import crm.entity.User;
-import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.web.servlet.view.document.AbstractXlsView;
 
@@ -32,10 +31,10 @@ public class ExcelView extends AbstractXlsView{
         CellStyle style = workbook.createCellStyle();
         Font font = workbook.createFont();
         font.setFontName("Arial");
-        style.setFillForegroundColor(HSSFColor.BLUE.index);
+        style.setFillForegroundColor(IndexedColors.BLUE.getIndex());
         style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         font.setBold(true);
-        font.setColor(HSSFColor.WHITE.index);
+        font.setColor(IndexedColors.WHITE.getIndex());
         style.setFont(font);
 
 
