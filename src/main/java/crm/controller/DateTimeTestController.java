@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.time.ZoneOffset;
 
 @Controller
 @RequestMapping("/date")
@@ -16,9 +16,11 @@ public class DateTimeTestController {
 
     @GetMapping("/test")
     public String dateTimeTest(Model model) {
-        model.addAttribute("standardDate", new Date());
-        model.addAttribute("localDateTime", LocalDateTime.now());
-        model.addAttribute("localDate", LocalDate.now());
+        // Migrated from java.util.Date to java.time.Instant for UTC-based time handling
+        model.addAttribute("standardDate", Instant.now());
+        // Using UTC timezone explicitly to avoid timezone inconsistencies in cloud environments
+        model.addAttribute("localDateTime", LocalDateTime.now(ZoneOffset.UTC));
+        model.addAttribute("localDate", LocalDate.now(ZoneOffset.UTC));
         model.addAttribute("timestamp", Instant.now());
         return "date/test";
     }
